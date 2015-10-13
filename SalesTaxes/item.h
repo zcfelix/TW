@@ -6,12 +6,14 @@
 class Item
 {
 public:
-    Item(std::string name, double price, bool is_imported = false) : name_(name), price_(price), is_imported_(is_imported) {}
+    Item(std::string name, unsigned int price, bool is_imported = false) : name_(name), price_(price) {}
     ~Item() {}
+    std::string getName() const { return name_; }
+    unsigned int getPrice() const { return price_; }
+    
 private:
     std::string name_;
-    double price_;
-    bool is_imported_;
+    unsigned int price_;
     
     friend class Calculator;
 };

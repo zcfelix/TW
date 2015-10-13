@@ -1,39 +1,47 @@
 #include <string>
+#include <unordered_set>
 #include <fstream>
 #include "taxpolicy.h"
 
-void TaxPolicy::init(std::string file_path = "./input/tax.policy")
+void TaxPolicy::init()
 {
-    std::ifstream fin(file_path, std::ios::in);
-    int line_count = 0;
+    std::fstream fin("./input/taxpolicy/basic_sales_tax.txt", std::ios::in);
+    
+    bool is_tax_rate_readed = false;
+    unsigned int tax_rate = 0;
+    std::unordered_set<std::string> exemptions_list;
     while (!fin.eof())
     {
         std::string line;
         std::getline(fin, line);
-        if (line_count == 0)
-            basic_sales_tax_ = std::stod(line);
-        else if (line_count == 1)
-            imported_duty_ = std::stod(line);
-        else
-            exemptions_list_.insert(line);
-        line_count++;
+        
+        if (!is_tax_rate_readed)
+        {
+            tax_rate = std::stoi(line);
+            is_tax_rate_readed = true;
+            continue;
+        }
+        exemptions_list.insert(line);
     }
+    
+    tax_items_list_.push_back(TaxItem("basic_sales_tax", tax_rate, exemptions_list));
+    
+    
+    is_tax_rate_readed = false;
+    std::fstream fin2("./input/taxpolicy/import_duty.txt", std::ios::in);
+    unsigned int tax_rate2 = 0;
+    std::unordered_set<std::string> exemptions_list2;
+    while (!fin2.eof())
+    {
+        std::string line;
+        std::getline(fin2, line);
+        if (!is_tax_rate_readed)
+        {
+            tax_rate2 = std::stoi(line);
+            is_tax_rate_readed = true;
+            continue;
+        }
+        exemptions_list2.insert(line);
+    }
+    tax_items_list_.push_back(TaxItem("import_duty", tax_rate2, exemptions_list2));
 }
-
-void TaxPolicy::setBasicSalesTax(double basic_sales_tax)
-{
-    basic_sales_tax_ = basic_sales_tax;
-}
-
-void TaxPolicy::setImportDuty(double imported_duty)
-{
-    imported_duty_ = imported_duty;
-}
-
-void TaxPolicy::setExemptions(std::unordered_set<std::string> &exemptions)
-{
-    for (auto i : exemptions)
-        exemptions_list_.insert(i);
-}
-
-

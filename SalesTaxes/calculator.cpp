@@ -1,63 +1,56 @@
 #include <sstream>
 #include "calculator.h"
 
-void Calculator::run()
+unsigned int Calculator::calcAndRound(unsigned int tax_rate_percent, unsigned int price_cent) const
 {
-    for (auto &p : p_basket_->items_list_)
+    unsigned int origin_cent = static_cast<unsigned int> ((tax_rate_percent * price_cent) / 100);
+    
+    unsigned int round_cent = origin_cent;
+    if (origin_cent % 5 != 0)
     {
-        double tax_rate = getItemTaxRate(p.first);
-        double tax = calcTax(p.first, p.second, tax_rate);
-        double shelf_price = calcShelfPrice(p.first, p.second, tax_rate);
+        unsigned int pre_bits = origin_cent / 10;
+        round_cent = (pre_bits + 1) * 10;
+    }
+    return round_cent;
+}
+
+void Calculator::run() const
+{
+    for (auto &i : p_basket_->items_list_)
+    {
+        unsigned int tax = calcItemTax(i.first);
+        unsigned int shelf_price = calcItemShelfPrice(i.first);
+        unsigned int item_count = i.second;
         
-        addLineToReceipt(p.first, p.second, shelf_price);
-        updateTotalTax(tax);
-        updateTotalPrice(shelf_price);
+        addLineToReceipt(i.first, item_count, shelf_price);
+        updateTotalPrice(item_count, shelf_price);
+        updateTotalTax(item_count, tax);
     }
 }
 
-double Calculator::calcTax(const Item &item, unsigned int item_count, double tax_rate)
+unsigned int Calculator::calcItemTax(const Item &item) const
 {
-    double tax = item.price_ * item_count * tax_rate;
-    tax = roundToNearest(tax);
-    return tax;
+    unsigned int tax_cent_sum = 0;
+    for (auto &p : p_taxpolicy_->tax_items_list_)
+    {
+        unsigned int tax_rate_percent = p.getTaxRatePercent(item);
+        unsigned int tax_cent = calcAndRound(tax_rate_percent, item.price_);
+        tax_cent_sum += tax_cent;
+    }
+    return tax_cent_sum;
 }
 
-double Calculator::calcShelfPrice(const Item &item, unsigned int item_count, double tax_rate)
+unsigned int Calculator::calcItemShelfPrice(const Item &item) const
 {
-    double shelf_price = item.price_ * item_count * (1.0 + tax_rate);
-    shelf_price = roundToNearest(shelf_price);
-    return shelf_price;
+    return item.price_ + calcItemTax(item);
 }
 
-double roundToNearest(double price)
-{
-    
-}
-
-void Calculator::addLineToReceipt(const Item& item, unsigned int item_count, double shelf_price)
+void Calculator::addLineToReceipt(const Item &item, unsigned int item_count, unsigned int shelf_price) const
 {
     std::stringstream ss;
-    ss << item_count << " " << item.name_ << ": " << shelf_price;
+    ss.setf(std::ios::fixed);
+    ss.precision(2);
+    ss << item_count << " " << item.name_ << ": " <<  (shelf_price * item_count)/ 100.0;
     p_receipt_->lines_.push_back(ss.str());
 }
 
-double Calculator::getItemTaxRate(const Item& item)
-{
-    double tax = 0.0;
-    if (item.is_imported_)
-        tax += p_taxpolicy_->imported_duty_;
-    if (!isExemption(item))
-        tax += p_taxpolicy_->basic_sales_tax_;
-    return tax;
-}
-
-bool Calculator::isExemption(const Item &item)
-{
-    std::string name = item.name_;
-    for (auto &e : p_taxpolicy_->exemptions_list_)
-    {
-        if (name.find(e) != std::string::npos)
-            return true;
-    }
-    return false;
-}

@@ -17,14 +17,33 @@ bool IsLegal(const std::string& line)
     return true;
 }
 
+unsigned int PriceStringToCent(const std::string& price_str)
+{
+    auto pos = price_str.find('.');
+    if (pos != std::string::npos)
+    {
+        unsigned int big = std::stoi(price_str.substr(0, pos));
+        unsigned int small = std::stoi(price_str.substr(pos + 1));
+        return big * 100 + small;
+    }
+    return std::stoi(price_str);
+}
 
-bool GetItemProperties(const std::string& line, std::string& item_name, unsigned int& item_count, double& item_price, bool& is_imported)
+bool GetItemProperties(const std::string& line, std::string& item_name, unsigned int& item_count, unsigned int& item_price, bool& is_imported)
 {
     if (!IsLegal(line)) return false;
     
     std::string delim = " at ";
     auto pos1 = line.find(delim);
-    item_price = std::stod(line.substr(pos1 + delim.length()));
+    
+    
+    std::string price_str = line.substr(pos1 + delim.length());
+    item_price = PriceStringToCent(price_str);
+    
+    //double price_origin = std::stod(line.substr(pos1 + delim.length()));
+    //item_price = static_cast<unsigned int>(std::stod(line.substr(pos1 + delim.length())) * 100.0);
+    
+    
     auto pos2 = line.find(" ");
     item_count = std::stoi(line.substr(0, pos2));
     item_name = line.substr(pos2 + 1, pos1 - 2);
@@ -35,17 +54,18 @@ bool GetItemProperties(const std::string& line, std::string& item_name, unsigned
 bool ThrowItemsToBasket(Basket& basket)
 {
     std::vector<Item> ret;
-    std::ifstream fin("./input/input3.txt", std::ios::in);
+    std::ifstream fin("./input/itemlist/input1.txt", std::ios::in);
     while (!fin.eof())
     {
         std::string line;
         std::getline(fin, line);
-        if (!IsLegal(line)) continue;
+        //if (!IsLegal(line)) continue;
         
         std::string item_name;
         unsigned int item_count;
-        double item_price;
+        unsigned int item_price;
         bool is_imported = false;
+        
         if (GetItemProperties(line, item_name, item_count, item_price, is_imported))
         {
             Item item(item_name, item_price, is_imported);
@@ -57,19 +77,11 @@ bool ThrowItemsToBasket(Basket& basket)
 
 int main(int argc, const char * argv[])
 {
-    std::string input_path("./input/input3.txt");
-    std::string taxpolicy_path("./input/tax.policy");
-    
-    if (argc == 2)
-        input_path = argv[1];
-    else if (argc == 3)
-        taxpolicy_path = argv[2];
-    
     Basket b;
     ThrowItemsToBasket(b);
     
     TaxPolicy *tp = TaxPolicy::getInstance();
-    tp->init("./input/tax.policy");                // 为什么不能默认参数，从而省略路径?
+    tp->init();                                         // 为什么不能默认参数，从而省略路径?
     
     Receipt r;
     
@@ -77,10 +89,12 @@ int main(int argc, const char * argv[])
     calc.setBasket(&b);
     calc.setReceipt(&r);
     calc.setTaxPolicy(tp);
-    calc.addLine();
+    calc.run();
     
     Printer printer;
     printer.setReceipt(&r);
     printer.printToConsole();
     return 0;
 }
+
+

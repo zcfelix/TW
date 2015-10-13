@@ -7,11 +7,12 @@
 class Receipt
 {
 public:
-    Receipt() : total_price_(0.0), total_tax_(0.0) {}
+    Receipt() : total_price_cent_(0), total_tax_cent_(0) {}
+
 private:
     std::vector<std::string> lines_;
-    double total_price_;
-    double total_tax_;
+    unsigned int total_price_cent_;
+    unsigned int total_tax_cent_;
     
     friend class Calculator;
     friend class Printer;

@@ -2,25 +2,22 @@
 #define taxpolicy_h
 
 #include <string>
+#include <vector>
 #include <unordered_set>
+#include "taxitem.h"
 
-class TaxPolicy             // 单例
+class TaxPolicy   // 税收政策：单例模式。维护一个税种列表，提供添加税种、初始化等接口
 {
 public:
     static TaxPolicy* getInstance() { static TaxPolicy instance; return &instance; }
-    void init(std::string file_path);
-    void setBasicSalesTax(double basic_sales_tax);
-    void setImportDuty(double imported_duty);
-    void setExemptions(std::unordered_set<std::string>& exemptions);
-    
+    void addTaxItem(TaxItem tax_item) { tax_items_list_.push_back(tax_item); }
+    void init();
+
 private:
-    TaxPolicy() {};
-    TaxPolicy(const TaxPolicy& t) {};
-    TaxPolicy& operator=(const TaxPolicy& t) = delete;
-    
-    double basic_sales_tax_;
-    double imported_duty_;
-    std::unordered_set<std::string> exemptions_list_;
+    TaxPolicy() {}
+    TaxPolicy(const TaxPolicy& taxpolicy) = delete;
+    TaxPolicy& operator=(const TaxPolicy& taxpolicy) = delete;
+    std::vector<TaxItem> tax_items_list_;
     
     friend class Calculator;
 };

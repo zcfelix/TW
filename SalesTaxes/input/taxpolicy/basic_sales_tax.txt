@@ -1,5 +1,4 @@
-0.10
-0.05
+10
 book
 chocolate
 pill
