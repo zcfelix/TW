@@ -11,7 +11,9 @@
 		10B2A6B51BCA96E1004B97F6 /* calculator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6B41BCA96E1004B97F6 /* calculator.cpp */; settings = {ASSET_TAGS = (); }; };
 		10B2A6B71BCA9BA3004B97F6 /* taxpolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6B61BCA9BA3004B97F6 /* taxpolicy.cpp */; settings = {ASSET_TAGS = (); }; };
 		10B2A6BA1BCAC25A004B97F6 /* printer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6B81BCAC25A004B97F6 /* printer.cpp */; settings = {ASSET_TAGS = (); }; };
-		10B2A6C01BCCEBCE004B97F6 /* taxitem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6BE1BCCEBCE004B97F6 /* taxitem.cpp */; settings = {ASSET_TAGS = (); }; };
+		10B2A6C31BCD10FB004B97F6 /* basictax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6C11BCD10FB004B97F6 /* basictax.cpp */; settings = {ASSET_TAGS = (); }; };
+		10B2A6C61BCD1165004B97F6 /* importedduty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6C41BCD1165004B97F6 /* importedduty.cpp */; settings = {ASSET_TAGS = (); }; };
+		10B2A6C91BCD1E7D004B97F6 /* publicfunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10B2A6C71BCD1E7D004B97F6 /* publicfunction.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,8 +40,13 @@
 		10B2A6B61BCA9BA3004B97F6 /* taxpolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = taxpolicy.cpp; sourceTree = "<group>"; };
 		10B2A6B81BCAC25A004B97F6 /* printer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = printer.cpp; sourceTree = "<group>"; };
 		10B2A6B91BCAC25A004B97F6 /* printer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = printer.h; sourceTree = "<group>"; };
-		10B2A6BE1BCCEBCE004B97F6 /* taxitem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = taxitem.cpp; sourceTree = "<group>"; };
-		10B2A6BF1BCCEBCE004B97F6 /* taxitem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = taxitem.h; sourceTree = "<group>"; };
+		10B2A6BF1BCCEBCE004B97F6 /* taxitembase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = taxitembase.h; sourceTree = "<group>"; };
+		10B2A6C11BCD10FB004B97F6 /* basictax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = basictax.cpp; sourceTree = "<group>"; };
+		10B2A6C21BCD10FB004B97F6 /* basictax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basictax.h; sourceTree = "<group>"; };
+		10B2A6C41BCD1165004B97F6 /* importedduty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = importedduty.cpp; sourceTree = "<group>"; };
+		10B2A6C51BCD1165004B97F6 /* importedduty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = importedduty.h; sourceTree = "<group>"; };
+		10B2A6C71BCD1E7D004B97F6 /* publicfunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = publicfunction.cpp; sourceTree = "<group>"; };
+		10B2A6C81BCD1E7D004B97F6 /* publicfunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = publicfunction.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +82,11 @@
 				10B2A6A81BCA6990004B97F6 /* main.cpp */,
 				10B2A6AF1BCA6A30004B97F6 /* item.h */,
 				10B2A6B31BCA8BC9004B97F6 /* basket.h */,
-				10B2A6BF1BCCEBCE004B97F6 /* taxitem.h */,
-				10B2A6BE1BCCEBCE004B97F6 /* taxitem.cpp */,
+				10B2A6BF1BCCEBCE004B97F6 /* taxitembase.h */,
+				10B2A6C21BCD10FB004B97F6 /* basictax.h */,
+				10B2A6C11BCD10FB004B97F6 /* basictax.cpp */,
+				10B2A6C51BCD1165004B97F6 /* importedduty.h */,
+				10B2A6C41BCD1165004B97F6 /* importedduty.cpp */,
 				10B2A6B01BCA80F3004B97F6 /* taxpolicy.h */,
 				10B2A6B61BCA9BA3004B97F6 /* taxpolicy.cpp */,
 				10B2A6B11BCA81C3004B97F6 /* receipt.h */,
@@ -84,6 +94,8 @@
 				10B2A6B41BCA96E1004B97F6 /* calculator.cpp */,
 				10B2A6B91BCAC25A004B97F6 /* printer.h */,
 				10B2A6B81BCAC25A004B97F6 /* printer.cpp */,
+				10B2A6C81BCD1E7D004B97F6 /* publicfunction.h */,
+				10B2A6C71BCD1E7D004B97F6 /* publicfunction.cpp */,
 			);
 			path = SalesTaxes;
 			sourceTree = "<group>";
@@ -146,9 +158,11 @@
 			files = (
 				10B2A6BA1BCAC25A004B97F6 /* printer.cpp in Sources */,
 				10B2A6B71BCA9BA3004B97F6 /* taxpolicy.cpp in Sources */,
+				10B2A6C31BCD10FB004B97F6 /* basictax.cpp in Sources */,
 				10B2A6A91BCA6990004B97F6 /* main.cpp in Sources */,
-				10B2A6C01BCCEBCE004B97F6 /* taxitem.cpp in Sources */,
 				10B2A6B51BCA96E1004B97F6 /* calculator.cpp in Sources */,
+				10B2A6C91BCD1E7D004B97F6 /* publicfunction.cpp in Sources */,
+				10B2A6C61BCD1165004B97F6 /* importedduty.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

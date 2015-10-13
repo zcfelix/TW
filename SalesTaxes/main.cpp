@@ -9,66 +9,26 @@
 #include "receipt.h"
 #include "calculator.h"
 #include "printer.h"
-
-bool IsLegal(const std::string& line)
-{
-    if (line.empty()) return false;
-    if (line.find(" at ") == std::string::npos) return false;
-    return true;
-}
-
-unsigned int PriceStringToCent(const std::string& price_str)
-{
-    auto pos = price_str.find('.');
-    if (pos != std::string::npos)
-    {
-        unsigned int big = std::stoi(price_str.substr(0, pos));
-        unsigned int small = std::stoi(price_str.substr(pos + 1));
-        return big * 100 + small;
-    }
-    return std::stoi(price_str);
-}
-
-bool GetItemProperties(const std::string& line, std::string& item_name, unsigned int& item_count, unsigned int& item_price, bool& is_imported)
-{
-    if (!IsLegal(line)) return false;
-    
-    std::string delim = " at ";
-    auto pos1 = line.find(delim);
-    
-    
-    std::string price_str = line.substr(pos1 + delim.length());
-    item_price = PriceStringToCent(price_str);
-    
-    //double price_origin = std::stod(line.substr(pos1 + delim.length()));
-    //item_price = static_cast<unsigned int>(std::stod(line.substr(pos1 + delim.length())) * 100.0);
-    
-    
-    auto pos2 = line.find(" ");
-    item_count = std::stoi(line.substr(0, pos2));
-    item_name = line.substr(pos2 + 1, pos1 - 2);
-    if (line.find("imported") != std::string::npos) is_imported = true;
-    return true;
-}
+#include "publicfunction.h"
 
 bool ThrowItemsToBasket(Basket& basket)
 {
     std::vector<Item> ret;
-    std::ifstream fin("./input/itemlist/input1.txt", std::ios::in);
+    std::ifstream fin("./input/itemlist/input3.txt", std::ios::in);
     while (!fin.eof())
     {
         std::string line;
         std::getline(fin, line);
-        //if (!IsLegal(line)) continue;
+        if (!IsLegal(line)) continue;
         
         std::string item_name;
         unsigned int item_count;
         unsigned int item_price;
         bool is_imported = false;
         
-        if (GetItemProperties(line, item_name, item_count, item_price, is_imported))
+        if (GetItemProperties(line, item_name, item_count, item_price))
         {
-            Item item(item_name, item_price, is_imported);
+            Item item(item_name, item_price);
             basket.addItem(item, item_count);
         }
     }
@@ -94,6 +54,8 @@ int main(int argc, const char * argv[])
     Printer printer;
     printer.setReceipt(&r);
     printer.printToConsole();
+    std::string out_path = "./output/output2.txt";
+    printer.printToFile(out_path);
     return 0;
 }
 

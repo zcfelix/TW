@@ -6,7 +6,7 @@
 class Item
 {
 public:
-    Item(std::string name, unsigned int price, bool is_imported = false) : name_(name), price_(price) {}
+    Item(std::string name, unsigned int price) : name_(name), price_(price) {}
     ~Item() {}
     std::string getName() const { return name_; }
     unsigned int getPrice() const { return price_; }

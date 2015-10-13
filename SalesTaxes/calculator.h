@@ -18,12 +18,10 @@ public:
     void setTaxPolicy(TaxPolicy* p_taxpolicy) { p_taxpolicy_ = p_taxpolicy; }
     
 private:
-    unsigned int calcAndRound(unsigned int tax_rate_percent, unsigned int price_cent) const;
-    unsigned int calcItemTax(const Item& item) const;
-    unsigned int calcItemShelfPrice(const Item& item) const;
-    void addLineToReceipt(const Item& item, unsigned int item_count, unsigned int shelf_price) const;
-    void updateTotalPrice(unsigned int item_count, unsigned int shelf_price) const { p_receipt_->total_price_cent_ += item_count * shelf_price; }
-    void updateTotalTax(unsigned int item_count, unsigned int tax) const { p_receipt_->total_tax_cent_ += item_count * tax; }
+    unsigned int calcItemTaxSumPerOne(const Item& item) const;
+    void addLineToReceipt(const Item& item, unsigned int item_count) const;
+    void updateTotalPrice(unsigned int shelf_price, unsigned int item_count) const { p_receipt_->total_price_cent_ += item_count * shelf_price; }
+    void updateTotalTax(unsigned int tax_sum, unsigned int item_count) const { p_receipt_->total_tax_cent_ += item_count * tax_sum; }
 
     
     Basket*    p_basket_;

@@ -7,7 +7,8 @@ class Receipt;
 class Printer
 {
 public:
-    void printToConsole();
+    void printToConsole() const;
+    void printToFile(std::string& file_path) const;
     void setReceipt(Receipt* p_receipt);
     
 private:

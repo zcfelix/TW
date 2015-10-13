@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-void Printer::printToConsole()
+void Printer::printToConsole() const
 {
     for (auto &l : p_receipt_->lines_)
     {
@@ -12,6 +12,16 @@ void Printer::printToConsole()
     std::cout.precision(2);
     std::cout << "Sales Taxes: " << (p_receipt_->total_tax_cent_ / 100.0)<< std::endl;
     std::cout << "Total: " << (p_receipt_->total_price_cent_ / 100.0) << std::endl;
+}
+
+void Printer::printToFile(std::string& file_path) const 
+{
+    std::ofstream fout(file_path, std::ios::out);
+    for (auto &l : p_receipt_->lines_)
+    {
+        fout << l << std::endl;
+    }
+    fout.close();
 }
 
 void Printer::setReceipt(Receipt *p_receipt)
