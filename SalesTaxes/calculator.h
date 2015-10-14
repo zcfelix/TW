@@ -22,7 +22,6 @@ private:
     void addLineToReceipt(const Item& item, unsigned int item_count) const;
     void updateTotalPrice(unsigned int shelf_price, unsigned int item_count) const { p_receipt_->total_price_cent_ += item_count * shelf_price; }
     void updateTotalTax(unsigned int tax_sum, unsigned int item_count) const { p_receipt_->total_tax_cent_ += item_count * tax_sum; }
-
     
     Basket*    p_basket_;
     Receipt*   p_receipt_;

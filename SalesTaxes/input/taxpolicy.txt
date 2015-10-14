@@ -1,0 +1,9 @@
+basic sales tax
+10
+book
+chocolate
+pill
+=====
+import duty
+5
+=====

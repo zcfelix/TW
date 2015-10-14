@@ -31,7 +31,7 @@ void Calculator::addLineToReceipt(const Item &item, unsigned int item_count) con
     std::stringstream ss;
     ss.setf(std::ios::fixed);
     ss.precision(2);
-    ss << item_count << " " << item.name_ << ": " <<  (shelf_price * item_count)/ 100.0;
+    ss << item_count << " " << item.getName() << ": " <<  (shelf_price * item_count)/ 100.0;
     p_receipt_->lines_.push_back(ss.str());
 }
 

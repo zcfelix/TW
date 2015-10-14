@@ -10,6 +10,7 @@ class TaxItemBase                           // 税目抽象基类，每个具体
 public:
     virtual unsigned int taxRateOfItem(const Item& item) const = 0;
     virtual unsigned int roundedTaxPerOne(const Item& item) const = 0;
+    virtual ~TaxItemBase() {}
     
 protected:
     virtual bool isExempted(const Item& item) const = 0;

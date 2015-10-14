@@ -14,8 +14,6 @@ public:
 private:
     std::string name_;
     unsigned int price_;
-    
-    friend class Calculator;
 };
 
 #endif /* item_h */

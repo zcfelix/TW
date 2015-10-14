@@ -17,6 +17,12 @@ void Printer::printToConsole() const
 void Printer::printToFile(std::string& file_path) const 
 {
     std::ofstream fout(file_path, std::ios::out);
+    if (!fout.is_open())
+    {
+        std::cerr << "Error: output file not opened." << std::endl;
+        return;
+    }
+    
     for (auto &l : p_receipt_->lines_)
     {
         fout << l << std::endl;

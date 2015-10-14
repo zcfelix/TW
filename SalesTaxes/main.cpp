@@ -11,10 +11,15 @@
 #include "printer.h"
 #include "publicfunction.h"
 
-bool ThrowItemsToBasket(Basket& basket)
+bool ThrowItemsToBasket(Basket& basket, std::string input_path);
+
+bool ThrowItemsToBasket(Basket& basket, std::string input_path)
 {
     std::vector<Item> ret;
-    std::ifstream fin("./input/itemlist/input3.txt", std::ios::in);
+    std::ifstream fin(input_path, std::ios::in);
+    if (!fin.is_open())
+        return false;
+
     while (!fin.eof())
     {
         std::string line;
@@ -24,7 +29,6 @@ bool ThrowItemsToBasket(Basket& basket)
         std::string item_name;
         unsigned int item_count;
         unsigned int item_price;
-        bool is_imported = false;
         
         if (GetItemProperties(line, item_name, item_count, item_price))
         {
@@ -32,16 +36,45 @@ bool ThrowItemsToBasket(Basket& basket)
             basket.addItem(item, item_count);
         }
     }
+    fin.close();
     return true;
 }
 
+
 int main(int argc, const char * argv[])
 {
+    std::string input_file;
+    std::string output_file = "./output/output.txt";                // 默认输出
+    
+    if (argc == 1)
+        input_file = "./input/input1.txt";                          // 默认输入
+    else if (argc == 2)
+        input_file = argv[1];
+    else if (argc == 3)
+    {
+        input_file  = argv[1];
+        output_file = argv[2];
+    }
+    else
+    {
+        std::cerr << "Incorrect argument. Useage: ./SalesTax <input_file> <outout_file>\n"
+                  << "Options: \n<input_file>      Item list for calculating taxes\n"
+                  << "<output_file>     Optional, output file to save result\n"
+                  << std::endl;
+        return -1;
+    }
+    
     Basket b;
-    ThrowItemsToBasket(b);
+    bool isThrown = ThrowItemsToBasket(b, input_file);
+    if (!isThrown)
+    {
+        std::cerr << "Error: input file not found" << std::endl;
+        return -1;
+    }
     
     TaxPolicy *tp = TaxPolicy::getInstance();
-    tp->init();                                         // 为什么不能默认参数，从而省略路径?
+    tp->init();
+    //tp->initFromFile("./input/taxpolicy.txt");
     
     Receipt r;
     
@@ -54,8 +87,7 @@ int main(int argc, const char * argv[])
     Printer printer;
     printer.setReceipt(&r);
     printer.printToConsole();
-    std::string out_path = "./output/output2.txt";
-    printer.printToFile(out_path);
+    printer.printToFile(output_file);
     return 0;
 }
 

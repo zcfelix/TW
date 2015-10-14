@@ -1,4 +1,0 @@
-10
-book
-chocolate
-pill
